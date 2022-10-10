@@ -3,14 +3,11 @@ import DropdownButton from "./DropdownButton.component";
 import Button from "./Button.component";
 import { useNavigate } from "react-router-dom";
 import { DeckSizeType } from "../../Routes/Game.types";
-import { useState } from "react";
+import { useGameContext } from "../Context/gameContext";
 
 export const GameNav = () => {
   const navigate = useNavigate();
-  const [deckSize, setDeckSize] = useState<DeckSizeType>(DeckSizeType.EASY);
-  const goToGame = () => {
-    navigate(`/game/${deckSize}`);
-  };
+  const { setDeckSize, startGame } = useGameContext();
 
   const goToHome = () => {
     navigate("/");
@@ -22,7 +19,7 @@ export const GameNav = () => {
         options={Object.values(DeckSizeType)}
         onSelect={(option) => setDeckSize(option as DeckSizeType)}
       />
-      <Button message="START NEW GAME" clickHandler={goToGame} />
+      <Button message="START NEW GAME" clickHandler={startGame} />
     </NavContainer>
   );
 };

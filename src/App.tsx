@@ -7,7 +7,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/game/:type" element={<Game />} />
+      <Route path="/game" element={<Game />} />
     </Routes>
   );
 }

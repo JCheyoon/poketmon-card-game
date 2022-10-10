@@ -1,21 +1,26 @@
-import { CardsGrid, CardStyle } from "./Cards.style";
-import { MixCardList } from "../Data/GameData";
-
-type CardsProps = {
-  type?: string;
-};
+import { BackCard, CardsGrid, CardStyle, FrontCard } from "./Cards.style";
+import { useGameContext } from "../Context/gameContext";
 
 const Cards = () => {
+  const { cards, gridClass, clickCard, flippedIndexes } = useGameContext();
+
   return (
     <>
-      <CardsGrid>
-        {MixCardList.map((item, i) => (
-          <CardStyle key={i}>
-            <img src={item.item} />
+      <CardsGrid className={gridClass}>
+        {cards.map((item, i) => (
+          <CardStyle
+            key={i}
+            className={flippedIndexes.includes(i) ? "flipped" : ""}
+          >
+            <FrontCard onClick={() => clickCard(i)}>
+              <img src="/assets/card-back.png" alt="" />
+            </FrontCard>
+            <BackCard>
+              <img src={item.item} alt="" />
+            </BackCard>
           </CardStyle>
         ))}
       </CardsGrid>
-      ;
     </>
   );
 };
