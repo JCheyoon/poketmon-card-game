@@ -15,7 +15,6 @@ import {
 import { DeckSizeType } from "../../Routes/Game.types";
 import { cardAudio, startBtnAudio } from "../Data/Audio";
 import { useContextModal } from "./modalContext";
-import { log } from "util";
 
 type ProviderProps = {
   children: React.ReactNode;

@@ -6,11 +6,8 @@ import { DeckSizeType } from "../../Routes/Game.types";
 import { useGameContext } from "../Context/gameContext";
 import { Difficulty } from "../../Routes/Home.style";
 import { startBtnAudio } from "../Data/Audio";
-import { useMediaQuery } from "usehooks-ts";
 
 export const GameNav = () => {
-  const matches = useMediaQuery("(min-width: 700px)");
-
   const navigate = useNavigate();
   const { setDeckSize, startGame, deckSize } = useGameContext();
   const goToHome = () => {
