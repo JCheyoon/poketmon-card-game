@@ -2,21 +2,26 @@ import { BackCard, CardsGrid, CardStyle, FrontCard } from "./Cards.style";
 import { useGameContext } from "../Context/gameContext";
 
 const Cards = () => {
-  const { cards, gridClass, clickCard, flippedIndexes } = useGameContext();
+  const { cards, gridClass, clickCard, choiceOne, choiceTwo, disable } =
+    useGameContext();
 
   return (
     <>
       <CardsGrid className={gridClass}>
-        {cards.map((item, i) => (
+        {cards.map((card, i) => (
           <CardStyle
             key={i}
-            className={flippedIndexes.includes(i) ? "flipped" : ""}
+            className={
+              card.matched || card === choiceTwo || card === choiceOne
+                ? "flipped"
+                : ""
+            }
           >
-            <FrontCard onClick={() => clickCard(i)}>
+            <FrontCard onClick={disable ? undefined : () => clickCard(card)}>
               <img src="/assets/card-back.png" alt="" />
             </FrontCard>
             <BackCard>
-              <img src={item.item} alt="" />
+              <img src={card.pic} alt="" />
             </BackCard>
           </CardStyle>
         ))}

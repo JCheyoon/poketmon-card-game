@@ -18,5 +18,34 @@ export const BackgroundImage = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 440px) {
+    flex-direction: row;
+  }
+`;
+
+export const Difficulty = styled.h3`
+  width: 130px;
+  font-size: 30px;
+  color: var(--white);
+  font-family: 'Silkscreen', cursive;
+  margin: 0;
+  animation: blinker 1s linear infinite;
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+`;
+
+export const MusicDiv = styled.div`
+  position: fixed;
+  bottom: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
 `;

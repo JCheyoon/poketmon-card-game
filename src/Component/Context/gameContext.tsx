@@ -3,11 +3,17 @@ import React, {
   Dispatch,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
-import { CardType, getCardsForType } from "../Data/GameData";
+import {
+  CardType,
+  getCardsForType,
+  getCurrentScoreByType,
+  saveScoreIfBest,
+} from "../Data/GameData";
 import { DeckSizeType } from "../../Routes/Game.types";
-import Cards from "../UI/Cards.component";
+import { cardAudio, startBtnAudio } from "../Data/Audio";
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -16,12 +22,18 @@ type ProviderProps = {
 export type GameContextType = {
   cards: CardType[];
   startGame: () => void;
-  flippedIndexes: number[];
-  clickCard: (i: number) => void;
+  clickCard: (card: CardType) => void;
   deckSize: DeckSizeType;
   gridClass: string;
   setDeckSize: Dispatch<SetStateAction<DeckSizeType>>;
+  choiceOne: CardType | null;
+  choiceTwo: CardType | null;
+  disable: boolean;
+  tries: number;
+  bestScore: number;
 };
+
+const FLIP_TIMEOUT = 500;
 
 const GameContext = createContext({} as GameContextType);
 
@@ -29,43 +41,77 @@ export const GameProvider = ({ children }: ProviderProps) => {
   const [cards, setCards] = useState<CardType[]>([]);
   const [deckSize, setDeckSize] = useState<DeckSizeType>(DeckSizeType.EASY);
   const [gridClass, setGridClass] = useState<string>("");
-  const [flippedIndexes, setFlippedIndexes] = useState<number[]>([]);
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+  const [choiceOne, setChoiceOne] = useState<CardType | null>(null);
+  const [choiceTwo, setChoiceTwo] = useState<CardType | null>(null);
+  const [disable, setDisable] = useState<boolean>(false);
+  const [tries, setTries] = useState<number>(0);
+  const [bestScore, setBestScore] = useState<number>(0);
+
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      const newTries = tries + 1;
+      setTries(newTries);
+
+      if (choiceOne.id === choiceTwo.id) {
+        const newCards = cards.map((card) => {
+          if (card.id === choiceOne.id) {
+            return { ...card, matched: true };
+          } else {
+            return card;
+          }
+        });
+        setCards(newCards);
+        if (newCards.every((card) => card.matched)) {
+          saveScoreIfBest(newTries, deckSize);
+        }
+        resetTurn();
+      } else {
+        setTimeout(() => {
+          resetTurn();
+        }, FLIP_TIMEOUT);
+      }
+    }
+  }, [choiceOne, choiceTwo]);
+
   const startGame = () => {
-    setFlippedIndexes([]);
+    startBtnAudio.play();
+
+    setBestScore(getCurrentScoreByType(deckSize));
+    setTries(0);
+    resetTurn();
+    setCards(cards.map((card) => ({ ...card, matched: false })));
     setTimeout(() => {
       setCards(getCardsForType(deckSize));
       setGridClass(deckSize);
-    }, 500);
+    }, FLIP_TIMEOUT);
   };
 
-  const clickCard = (index: number) => {
-    const currentId = cards[index].id;
+  const clickCard = (card: CardType) => {
+    cardAudio.play();
+    setDisable(true);
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+    setTimeout(() => {
+      setDisable(false);
+    }, FLIP_TIMEOUT);
+  };
 
-    if (!clickedIndex) {
-      setClickedIndex(index);
-    } else {
-      const alreadyClickedId = cards[clickedIndex].id;
-      if (currentId === alreadyClickedId) {
-        console.log("dosomething");
-      }
-    }
-    setFlippedIndexes([...flippedIndexes, index]);
-    console.log(index);
-    console.log(flippedIndexes);
-    if (flippedIndexes.length > 1) {
-      setFlippedIndexes([]);
-    }
+  const resetTurn = () => {
+    setChoiceOne(null);
+    setChoiceTwo(null);
   };
 
   const value = {
     cards,
     startGame,
-    flippedIndexes,
     clickCard,
     deckSize,
     setDeckSize,
     gridClass,
+    choiceOne,
+    choiceTwo,
+    disable,
+    tries,
+    bestScore,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

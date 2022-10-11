@@ -1,6 +1,7 @@
 import { DropdownButtonStyle } from "./Button.style";
 import { useState } from "react";
 import DropdownCard from "./DropdownCard.component";
+import { deckBtnAudio } from "../Data/Audio";
 
 interface Props {
   options: string[];
@@ -11,7 +12,12 @@ const DropdownButton = ({ options, onSelect }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <DropdownButtonStyle onClick={() => setOpen((open) => !open)}>
+    <DropdownButtonStyle
+      onClick={() => {
+        deckBtnAudio.play();
+        setOpen((open) => !open);
+      }}
+    >
       <p>
         <span>DECK SIZE</span>
         <span className="material-symbols-outlined">arrow_drop_down</span>

@@ -14,6 +14,7 @@ export const GameInfoContainer = styled.div`
     color: var(--yellow-color);
 
     span {
+      width: 80px;
       font-size: 48px;
     }
   }

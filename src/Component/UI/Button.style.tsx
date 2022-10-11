@@ -21,9 +21,12 @@ export const DropdownButtonStyle = styled.button`
   background-color: var(--blue-color);
   border: none;
   border-radius: 18px;
-  margin: 10px 10px 10px 40px;
-
+  margin: 10px 10px 10px 10px;
   cursor: pointer;
+
+  @media (min-width: 440px) {
+    margin: 10px 10px 10px 40px;
+  }
 
   p {
     padding: 0;
@@ -34,7 +37,7 @@ export const DropdownButtonStyle = styled.button`
     span {
       margin-right: 4px;
       &.material-symbols-outlined {
-        font-size: 40px;
+        font-size: 34px;
       }
     }
   }
@@ -42,6 +45,7 @@ export const DropdownButtonStyle = styled.button`
 
 export const DropdownCardStyle = styled.div`
   position: absolute;
+  z-index: 7;
   background-color: var(--white);
   width: 140px;
   ul {
