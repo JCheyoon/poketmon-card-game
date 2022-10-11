@@ -18,7 +18,12 @@ const GameInfo = ({ tries, best }: GameInfoProp) => {
       <p>
         BEST:&nbsp;<span>{best}</span>
       </p>
-      <Button message="RESTART" clickHandler={startGame} />
+      <Button
+        message="RESTART"
+        icon="restart_alt"
+        responsive={true}
+        clickHandler={startGame}
+      />
     </GameInfoContainer>
   );
 };

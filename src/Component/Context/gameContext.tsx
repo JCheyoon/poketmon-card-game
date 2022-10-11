@@ -10,10 +10,12 @@ import {
   CardType,
   getCardsForType,
   getCurrentScoreByType,
-  saveScoreIfBest,
+  handleScore,
 } from "../Data/GameData";
 import { DeckSizeType } from "../../Routes/Game.types";
 import { cardAudio, startBtnAudio } from "../Data/Audio";
+import { useContextModal } from "./modalContext";
+import { log } from "util";
 
 type ProviderProps = {
   children: React.ReactNode;
@@ -38,6 +40,7 @@ const FLIP_TIMEOUT = 500;
 const GameContext = createContext({} as GameContextType);
 
 export const GameProvider = ({ children }: ProviderProps) => {
+  const { showModal } = useContextModal();
   const [cards, setCards] = useState<CardType[]>([]);
   const [deckSize, setDeckSize] = useState<DeckSizeType>(DeckSizeType.EASY);
   const [gridClass, setGridClass] = useState<string>("");
@@ -62,7 +65,14 @@ export const GameProvider = ({ children }: ProviderProps) => {
         });
         setCards(newCards);
         if (newCards.every((card) => card.matched)) {
-          saveScoreIfBest(newTries, deckSize);
+          const { isHighScore } = handleScore(newTries, deckSize);
+          showModal({
+            title: "Congrats!",
+            message: `You found all matches${
+              isHighScore ? " and you have a new high score" : ""
+            }!`,
+            onHideFn: () => startGame,
+          });
         }
         resetTurn();
       } else {
@@ -75,7 +85,6 @@ export const GameProvider = ({ children }: ProviderProps) => {
 
   const startGame = () => {
     startBtnAudio.play();
-
     setBestScore(getCurrentScoreByType(deckSize));
     setTries(0);
     resetTurn();

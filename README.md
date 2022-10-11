@@ -1,15 +1,21 @@
 # Poketmon-card-game
 
-Card matching game!
+Memory game with React
 
 ### Public pages:
-![](/)
+![](https://storage.jcheyoon.com/poketmon-card.gif)
+
 
 > [>> Check it out here!](/)
 ### Features:
-- **bla -**
-bla
+- **Local storage -**
+user can check their best score.
 
+- **Game difficulty -**
+user can choose 3 different type of game difficulty.
+
+- **Responsive ui -**
+It's look fine on both desktops, tablets and mobile phones.
 
 ### Technologies used:
 

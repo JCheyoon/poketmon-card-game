@@ -7,11 +7,24 @@ export const ButtonStyle = styled.button`
   border: none;
   border-radius: 18px;
   cursor: pointer;
-  margin: 10px;
+  margin: 5px;
+  @media (min-width: 490px) {
+    margin: 10px;
+  }
 
   p {
     padding: 0;
     margin: 8px 16px;
+  }
+
+  span {
+    padding: 0;
+    margin: 4px 4px;
+    font-size: 34px;
+
+    @media (min-width: 490px) {
+      margin: 8px 16px;
+    }
   }
 `;
 
@@ -21,19 +34,22 @@ export const DropdownButtonStyle = styled.button`
   background-color: var(--blue-color);
   border: none;
   border-radius: 18px;
-  margin: 10px 10px 10px 10px;
+  margin: 5px;
   cursor: pointer;
 
-  @media (min-width: 440px) {
+  @media (min-width: 490px) {
     margin: 10px 10px 10px 40px;
   }
 
   p {
     padding: 0;
-    margin: 8px;
+    margin: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
+    @media (min-width: 490px) {
+      margin: 8px;
+    }
     span {
       margin-right: 4px;
       &.material-symbols-outlined {

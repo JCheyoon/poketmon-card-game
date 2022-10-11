@@ -53,7 +53,10 @@ export const getCurrentScoreByType = (type: DeckSizeType): number => {
   return score;
 };
 
-export const saveScoreIfBest = (tries: number, type: DeckSizeType): void => {
+export const handleScore = (
+  tries: number,
+  type: DeckSizeType
+): { isHighScore: boolean } => {
   // check if there are any saved scores
   const storeData = localStorage.getItem("bestTries");
   // if not, save the current tries as score for this type
@@ -62,7 +65,7 @@ export const saveScoreIfBest = (tries: number, type: DeckSizeType): void => {
       [type]: tries,
     };
     localStorage.setItem("bestTries", JSON.stringify(score));
-    return;
+    return { isHighScore: true };
   }
   // check if there is saved score for the current type
   const scoresObject = JSON.parse(storeData);
@@ -77,7 +80,9 @@ export const saveScoreIfBest = (tries: number, type: DeckSizeType): void => {
         [type]: tries,
       })
     );
+    return { isHighScore: true };
   }
 
   // if not, do nothing (not a new high score)
+  return { isHighScore: false };
 };

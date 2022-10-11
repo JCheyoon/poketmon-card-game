@@ -9,8 +9,8 @@ import DropdownButton from "../Component/UI/DropdownButton.component";
 import { DeckSizeType } from "./Game.types";
 import { useGameContext } from "../Component/Context/gameContext";
 import { useNavigate } from "react-router-dom";
-import ReactAudioPlayer from "react-audio-player";
-import { deckBtnAudio, startBtnAudio } from "../Component/Data/Audio";
+import { startBtnAudio } from "../Component/Data/Audio";
+import AudioPlayer from "react-h5-audio-player";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -19,7 +19,14 @@ const Home = () => {
   return (
     <BackgroundImage>
       <MusicDiv>
-        <ReactAudioPlayer src="/Home.mp3" autoPlay controls loop />
+        <AudioPlayer
+          src="/Home.mp3"
+          autoPlay
+          loop
+          customVolumeControls={[]}
+          showJumpControls={false}
+          customAdditionalControls={[]}
+        />
       </MusicDiv>
       <img src="/assets/pokemon-title.png" alt="" />
       <ButtonContainer>

@@ -48,4 +48,16 @@ export const MusicDiv = styled.div`
   border: none;
   cursor: pointer;
   color: var(--white);
+
+  .rhap_progress-section {
+    display: none;
+  }
+
+  .rhap_main-controls-button,
+  .rhap_play-pause-button {
+    font-size: 40px;
+    background: none;
+    border: none;
+    color: var(--white);
+  }
 `;

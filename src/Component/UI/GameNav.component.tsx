@@ -6,24 +6,37 @@ import { DeckSizeType } from "../../Routes/Game.types";
 import { useGameContext } from "../Context/gameContext";
 import { Difficulty } from "../../Routes/Home.style";
 import { startBtnAudio } from "../Data/Audio";
+import { useMediaQuery } from "usehooks-ts";
 
 export const GameNav = () => {
+  const matches = useMediaQuery("(min-width: 700px)");
+
   const navigate = useNavigate();
   const { setDeckSize, startGame, deckSize } = useGameContext();
-
   const goToHome = () => {
     navigate("/");
     startBtnAudio.play();
   };
   return (
     <NavContainer>
-      <Button message="HOME" clickHandler={goToHome} />
+      <Button
+        message="HOME"
+        responsive={true}
+        icon="home"
+        clickHandler={goToHome}
+      />
       <DropdownButton
+        responsive={true}
+        icon="aspect_ratio"
         options={Object.values(DeckSizeType)}
         onSelect={(option) => setDeckSize(option as DeckSizeType)}
       />
-      <Button message="START NEW GAME" clickHandler={startGame} />
-
+      <Button
+        icon="play_arrow"
+        message="START NEW GAME"
+        responsive={true}
+        clickHandler={startGame}
+      />
       <RightDiv>
         <Difficulty>{deckSize}</Difficulty>
       </RightDiv>

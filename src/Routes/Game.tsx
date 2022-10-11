@@ -4,16 +4,27 @@ import GameInfo from "../Component/UI/GameInfo.component";
 import Cards from "../Component/UI/Cards.component";
 import { useGameContext } from "../Component/Context/gameContext";
 import { MusicDiv } from "./Home.style";
-import ReactAudioPlayer from "react-audio-player";
+import AudioPlayer from "react-h5-audio-player";
+import { useEffect } from "react";
 
 const Game = () => {
-  const { tries, bestScore } = useGameContext();
+  const { tries, bestScore, startGame } = useGameContext();
+  useEffect(() => {
+    startGame();
+  }, []);
   return (
     <>
       <GameNav />
       <GameBackgroundImage>
         <MusicDiv>
-          <ReactAudioPlayer src="/Game.mp3" autoPlay controls loop />
+          <AudioPlayer
+            src="/Game.mp3"
+            autoPlay
+            loop
+            customVolumeControls={[]}
+            showJumpControls={false}
+            customAdditionalControls={[]}
+          />
         </MusicDiv>
         <GameInfo tries={tries} best={bestScore} />
         <Cards />

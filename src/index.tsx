@@ -4,15 +4,18 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { GameProvider } from "./Component/Context/gameContext";
+import { ModalProvider } from "./Component/Context/modalContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <BrowserRouter>
-    <GameProvider>
-      <App />
-    </GameProvider>
+    <ModalProvider>
+      <GameProvider>
+        <App />
+      </GameProvider>
+    </ModalProvider>
   </BrowserRouter>
 );
 

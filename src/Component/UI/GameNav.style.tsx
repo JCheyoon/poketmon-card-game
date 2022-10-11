@@ -6,6 +6,10 @@ export const NavContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+
+  @media (min-width: 700px) {
+    width: 100%;
+  }
 `;
 
 export const RightDiv = styled.div`
